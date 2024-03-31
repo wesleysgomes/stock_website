@@ -1,0 +1,43 @@
+.formsComponents {
+    display: flex;
+    gap: 1.5rem;
+  }
+  
+  .formsComponents input {
+    margin-top: 0.5rem;
+    width: 15rem;
+    padding-left: 0.3rem;
+    background-color: #151515;
+    height: 2.5rem;
+    color: #fff;
+    border: none;
+    border-radius: 0.3rem;
+    font-size: 0.9rem;
+  
+    &::-webkit-input-placeholder {
+      color: #fff;
+    }
+  }
+  
+  .descpItem {
+    margin-top: 1.5rem;
+  }
+  
+  .descp {
+    margin-top: 0.5rem;
+    background-color: #151515;
+    border: none;
+    border-radius: 0.3rem;
+    color: #fff;
+    padding: 0.3rem;
+  }
+  
+  .btnSave{
+      margin-top: 1rem;
+      background-color: #4ab0f5;
+      border: none;
+      border-radius: .5rem;
+      width: 7rem;
+      height: 2.3rem;
+      font-size: 1rem;
+  }
