@@ -7,8 +7,8 @@ export default function StockContextProvider({ children }) {
     const stockDb = localStorage.getItem("stock-item-db");
     if (!stockDb) return [];
     JSON.parse(stockDb);
-    items.forEach((item) => {
-      item.createdAt = new Date(item.createdAt);
+    items.forEach((item) => {item.createdAt = new Date(item.createdAt)
+      ;
       item.updatedAt = new Date(item.updatedAt);
     });
     return items;
