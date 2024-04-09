@@ -1,10 +1,16 @@
 import { Link, useLoaderData } from "react-router-dom";
 import styles from "./styles.module.css";
-import useStockItem from "../../hooks/useStockItem";
+import DeleteBtn from "../../components/DeleteBtn";
 
 export default function Item() {
   const item = useLoaderData();
-  const { removeItem } = useStockItem();
+  
+  const optionFormat = {
+    weekday: "long",
+    day: "numeric",
+    month: "2-digit",
+    year: "numeric",
+  };
 
   return (
     <>
@@ -15,12 +21,7 @@ export default function Item() {
             <button className={styles.btnUpdate}>Atualizar</button>
           </Link>
           <Link to="/estoque">
-            <button
-              className={styles.btnDel}
-              onClick={() => removeItem(item.id)}
-            >
-              Excluir
-            </button>
+            <DeleteBtn itemId={item.id} itemName={item.name}/>
           </Link>
         </div>
       </div>
@@ -35,8 +36,8 @@ export default function Item() {
         <p>{item.description}</p>
 
         <div className={styles.updateInfo}>
-          <p>{`Data de criação:  ${item.dateCreated}`}</p>
-          <p>Data de atualização: </p>
+          <p>{`Data de criação:  ${item.createdAt.toLocaleDateString("pt-BR", optionFormat)}`}</p>
+          <p>{`Data de atualização:  ${item.updatedAt.toLocaleDateString("pt-BR", optionFormat)}`}</p>
         </div>
       </div>
     </>

@@ -1,14 +1,19 @@
 import { createContext, useState } from "react";
+import PropTypes from "prop-types";
 
 export const StockContext = createContext({});
+
+StockContextProvider.propTypes = {
+  children: PropTypes.node,
+};
 
 export default function StockContextProvider({ children }) {
   const [items, setItems] = useState(() => {
     const stockDb = localStorage.getItem("stock-item-db");
     if (!stockDb) return [];
-    JSON.parse(stockDb);
-    items.forEach((item) => {item.createdAt = new Date(item.createdAt)
-      ;
+     const items = JSON.parse(stockDb);
+    items.forEach((item) => {
+      item.createdAt = new Date(item.createdAt);
       item.updatedAt = new Date(item.updatedAt);
     });
     return items;
@@ -16,14 +21,10 @@ export default function StockContextProvider({ children }) {
 
   const addItem = (item) => {
     setItems((state) => {
-      const newState = [...state, item];
+      const newState = [item, ...state];
       localStorage.setItem("stock-item-db", JSON.stringify(newState));
       return newState;
     });
-  };
-
-  const getItem = (itemId) => {
-    return items.find((i) => i.id === +itemId);
   };
 
   const updateItem = (itemId, newAttributes) => {
@@ -49,14 +50,11 @@ export default function StockContextProvider({ children }) {
   const stock = {
     items,
     addItem,
-    getItem,
     updateItem,
-    removeItem
-  }
+    removeItem,
+  };
 
-  return(
-    <StockContext.Provider value={stock}>
-        {children}
-    </StockContext.Provider>
-  )
+  return (
+    <StockContext.Provider value={stock}>{children}</StockContext.Provider>
+  );
 }

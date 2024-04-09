@@ -1,7 +1,11 @@
 export default function loadItem({ params }) {
-  const itens = JSON.parse(localStorage.getItem("stock-item-db"));
+  const items = JSON.parse(localStorage.getItem("stock-item-db"));
+  items.forEach((item) => {
+    item.createdAt = new Date(item.createdAt);
+    item.updatedAt = new Date(item.updatedAt);
+  });
 
-  const item = itens.find((i) => i.id === +params.itemId);
+  const item = items.find((i) => i.id === +params.itemId);
 
   if (!item) {
     throw new Response("404 Not found", { status: 404 });
