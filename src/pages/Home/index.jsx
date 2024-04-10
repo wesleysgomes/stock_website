@@ -1,32 +1,38 @@
 import { Link } from "react-router-dom";
 import CardInfo from "../../components/CardInfo";
 import Navbar from "../../components/Navbar";
-import useStockItem from "../../hooks/useStockItem";
 import styles from "./styles.module.css";
+import useStock from "../../hooks/useStock";
 
 export default function Home() {
-  const { itens } = useStockItem();
+  const { items } = useStock();
 
-  const totalItens = itens
+  const today = new Date();
+  const limitDate = new Date();
+  limitDate.setDate(limitDate.getDay() - 10);
+
+  const recentItems = items.filter(
+    (item) => item.createdAt >= limitDate && item.createdAt <= today
+  );
+
+  const totalItems = items
     .map((obj) => +obj.quantity)
     .reduce((total, quantity) => total + quantity);
 
-  const endingItens = itens
+  const endingItems = items
     .map((obj) => 10 > +obj.quantity)
     .reduce((total, quantity) => total + quantity);
 
-  const lastItens = itens.slice(-5);
- 
 
   return (
     <>
       <Navbar />
       <h1 className={styles.title}>Dashboard</h1>
       <section className={styles.card}>
-        <CardInfo title="Diversidade de itens" quantity={itens.length} />
-        <CardInfo title="Inventário total" quantity={totalItens} />
-        <CardInfo title="Itens recentes"  quantity={lastItens.length}/>
-        <CardInfo title="Itens acabando" quantity={endingItens} />
+        <CardInfo title="Diversidade de itens" quantity={items.length} />
+        <CardInfo title="Inventário total" quantity={totalItems} />
+        <CardInfo title="Itens recentes" quantity={recentItems.length} />
+        <CardInfo title="Itens acabando" quantity={endingItems} />
       </section>
       <section className={styles.tableSection}>
         <div>
@@ -38,13 +44,13 @@ export default function Home() {
               </tr>
             </thead>
             <tbody>
-              {lastItens.map((item) => (
+              {recentItems.map((item) => (
                 <tr key={item.id}>
                   <td>{item.name}</td>
                   <td>
-                  <Link to={`/estoque/${item.id}`}>
-                          <button className={styles.btnInfo}>Ver</button>
-                        </Link>
+                    <Link to={`/estoque/${item.id}`}>
+                      <button className={styles.btnInfo}>Ver</button>
+                    </Link>
                   </td>
                 </tr>
               ))}
@@ -61,7 +67,7 @@ export default function Home() {
               </tr>
             </thead>
             <tbody>
-              {itens.map((item) => {
+              {items.map((item) => {
                 if (item.quantity < 10) {
                   return (
                     <tr key={item.id}>

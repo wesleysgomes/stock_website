@@ -11,9 +11,11 @@ DeleteBtn.propTypes ={
 export default function DeleteBtn({ itemId, itemName }) {
   const { removeItem } = useStock();
   const navigate = useNavigate();
+
   const handleDelete = () => {
     if (confirm(`Tem certeza que deseja excluir o item ${itemName}?`)) {
       removeItem(itemId);
+      navegate("/estoque");
     }
   };
 

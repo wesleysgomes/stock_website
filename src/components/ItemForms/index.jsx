@@ -3,6 +3,7 @@ import StockItem, { Categories } from "../../models/StockItem";
 import { useRef, useState } from "react";
 import useStock from "../../hooks/useStock";
 import styles from "./styles.module.css";
+import { useNavigate } from "react-router-dom";
 
 ItemForms.propTypes = {
   itemToUpdate: PropTypes.object
@@ -17,6 +18,8 @@ export default function ItemForms({ itemToUpdate }) {
     category: "",
   };
 
+  const navigate = useNavigate();
+
   const [item, setItem] = useState(itemToUpdate ? itemToUpdate : defaultItem);
   const { addItem, updateItem } = useStock();
   const inputRef = useRef(null);
@@ -27,10 +30,12 @@ export default function ItemForms({ itemToUpdate }) {
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
+
     try {
       if (itemToUpdate) {
         updateItem(itemToUpdate.id, item);
         alert("Item atualizado com sucesso!");
+        navigate("/estoque");
       } else {
         const validItem = new StockItem(item);
         addItem(validItem);

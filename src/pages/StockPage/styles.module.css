@@ -8,12 +8,15 @@
     padding: 1rem;
     text-decoration: none;
     color: #fff;
+}
+
+.linksActive{
+    padding: 1rem;
+    text-decoration: none;
+    color: #fff;
     border-bottom: 2px solid aliceblue;
 }
 
-.active{
-    color: aqua;
-}
 
 h1{
     padding: 1rem;
